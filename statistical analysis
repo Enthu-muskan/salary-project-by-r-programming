@@ -1,0 +1,70 @@
+> # Create the dataset
+> set.seed(123)  # For reproducibility
+> 
+> Age <- sample(22:60, 30, replace = TRUE)
+> Salary <- round(rnorm(30, mean = 70, sd = 10), 1)
+> Department <- sample(c("HR", "IT", "Finance"), 30, replace = TRUE)
+> YearsExperience <- round(runif(30, min = 1, max = 35), 1)
+> RemoteWork <- sample(c("Yes", "No"), 30, replace = TRUE)
+> 
+> # Combine into a data frame
+> employee_data <- data.frame(Age, Salary, Department, YearsExperience, RemoteWork)
+> 
+> # View the first few rows
+> head(employee_data)
+  Age Salary Department YearsExperience RemoteWork
+1  52   63.7    Finance             3.6         No
+2  36   53.1         IT             9.4         No
+3  35   78.4    Finance            25.9         No
+4  24   71.5         HR            29.8         No
+5  58   58.6         IT            17.9        Yes
+6  35   82.5         IT            14.2        Yes
+> 
+> # Summary of all variables
+> summary(employee_data)
+      Age            Salary       Department        YearsExperience
+ Min.   :24.00   Min.   :53.10   Length:30          Min.   : 3.60  
+ 1st Qu.:30.25   1st Qu.:66.05   Class :character   1st Qu.: 9.55  
+ Median :37.00   Median :69.65   Mode  :character   Median :14.65  
+ Mean   :40.50   Mean   :71.16                      Mean   :16.28  
+ 3rd Qu.:48.75   3rd Qu.:78.10                      3rd Qu.:22.30  
+ Max.   :60.00   Max.   :91.70                      Max.   :30.40  
+  RemoteWork       
+ Length:30         
+ Class :character  
+ Mode  :character  
+                   
+                   
+                   
+> 
+> mean(employee_data$Salary)
+[1] 71.15667
+> sd(employee_data$Salary)
+[1] 8.807195
+> 
+> aggregate(Salary ~ Department, data = employee_data, FUN = mean)
+  Department   Salary
+1    Finance 73.65556
+2         HR 70.46000
+3         IT 69.96875
+> 
+> cor(employee_data$Age, employee_data$Salary)
+[1] -0.07267163
+> 
+> t.test(Salary ~ RemoteWork, data = employee_data)
+
+	Welch Two Sample t-test
+
+data:  Salary by RemoteWork
+t = 0.11686, df = 19.012, p-value = 0.9082
+alternative hypothesis: true difference in means between group No and group Yes is not equal to 0
+95 percent confidence interval:
+ -6.998963  7.826741
+sample estimates:
+ mean in group No mean in group Yes 
+         71.32222          70.90833 
+
+> 
+> boxplot(Salary ~ Department, data = employee_data, 
++         main = "Salary Distribution by Department", 
++         ylab = "Salary ($1000s)", col = c("lightblue", "lightgreen", "lightpink"))
